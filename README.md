@@ -6,7 +6,7 @@
 A **PDF report** generated with **RStudio**, **R** and **knitr** where
 data from *COVID-19* was analyzed.
 
-See final PDF report: [Covid19.pdf](Covid19.pdf)
+See final PDF report: [COVID19.pdf](COVID19.pdf)
 
 ### Statistical Methods
 
