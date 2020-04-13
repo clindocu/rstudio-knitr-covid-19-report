@@ -1,0 +1,213 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% COVID 19 FIGURES - BEGIN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\section{COVID-19, Data Handling}
+Data from United Kingdom: Anguilla, Bermuda, British Virgin Islands, Cayman Islands, 
+Channel Islands, Falkland Islands (Islas Malvinas), Gibraltar, Isle of Man, Montserrat, Turks and Caicos Islands - not included (but population data for UK used; dataset \textit{POPDATA}). \\
+
+Data from Netherlands: Aruba, Bonaire, Sint Eustatius and Saba, Curacao, Sint Maarten - not included (but population data for Netherlands used; dataset \textit{POPDATA}). \\
+
+Data from France: French Guiana, French Polynesia, Guadeloupe, Martinique, Mayotte, New Caledonia, Reunion, Saint Barthelemy, Saint Pierre and Miquelon, St Martin - not included (but population data for France used; dataset \textit{POPDATA}).  \\
+
+Minor corrections of inconsistencies for State Iceland: \\
+If STATE="Iceland" and DATE="15Mar20"d then DEATH=0; * instead of N=5; \\
+If STATE="Iceland" and DATE="20Mar20"d then DEATH=1; * instead of N=0; \\
+
+Currently following countries (with population data) are in the derived dataset \textit{ALLSTATE}: \\
+
+<<results='asis', echo=FALSE>>=
+df4 <- TODAY %>%
+    select(STATE, POPUL)
+  
+my_table <- xtable(df4, caption = "Listing of Countries/States in Dataset ALLSTATE", 
+           align = "lrr", caption.placement = "top", digits = 0, label = "ListStates")
+  
+print(my_table, caption.placement = "top", size = "small", include.rownames = TRUE, 
+        table.placement = "htb", tabular.environment = "longtable", floating = FALSE)
+@
+
+All counties/states can be found in the derived (long dataset) dataset: \textit{ALLDAYS} (w/o population data)
+
+<<echo=F>>=
+## Derive Date Today - to be used later;
+myDATE <- TODAY[1, 2]
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\section{COVID-19, Analysis from \Sexpr{myDATE}}
+\subsection{COVID-19, Total Confirmed Cases, by Country}
+<<COVID1, fig.cap=cap, out.width='10cm'>>=
+cap <- "COVID 19 - Day 1 is first day with >=1 case in country"
+
+#Select Sates (subset), e.g.;
+df1STATES <- ALLSTATE %>% filter(STATE == "Austria" | STATE == "Germany" | STATE == "Iceland" |
+            STATE == "Italy" | STATE == "Spain" | STATE == "United Kingdom" |
+            STATE == "US")
+# Dataset for CFR (%) - select countries;
+df1TODAY <- TODAY %>% filter(STATE == "Austria" | STATE == "Germany" | STATE == "Iceland" |
+            STATE == "Italy" | STATE == "Spain" | STATE == "United Kingdom" |
+            STATE == "US")
+
+# Master dataset (all countries/states in database)
+#df1STATES <- ALLSTATE
+#df1TODAY <- TODAY
+
+xLab <- "Day"
+yLab <- "Confirmed Cases"
+
+ggplot(df1STATES, aes(x = DAY, y = CONFIRM)) + 
+  geom_line(aes(color = STATE), size = 1) +
+  guides(color = guide_legend("State")) +
+  labs(x = xLab, y = yLab) +
+  theme_pubr()
+@
+
+\clearpage
+\newpage
+\subsection{COVID-19, Total Confirmed Cases, Day 1 first day with >=100 cases, by Country}
+<<COVID2, fig.cap=cap, out.width='10cm'>>=
+cap <- "COVID 19 - Day 1 is first day with >=100 cases in country"
+
+#df1STATES <- ALLSTATE
+xLab <- "Day"
+yLab <- "Confirmed Cases"
+
+ggplot(df1STATES, aes(x = DAY100, y = CONFIRM)) + 
+  geom_line(aes(color = STATE), size = 1) +
+  guides(color = guide_legend("State")) +
+  labs(x = xLab, y = yLab) +
+  theme_pubr()
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\subsection{COVID-19, Total Confirmed Cases per million people, by Country}
+<<COVID3, fig.cap=cap, out.width='10cm'>>=
+cap <- "COVID 19 - Day 1 is first day with >=1 case per million people in country"
+
+#df1STATES <- ALLSTATE
+xLab <- "Day"
+yLab <- "Confirmed cases per million people"
+
+ggplot(df1STATES, aes(x = DAY1M, y = CONF_MIO)) + 
+  geom_line(aes(color = STATE), size = 1) +
+  guides(color = guide_legend("State")) +
+  labs(x = xLab, y = yLab) +
+  theme_pubr()
+@
+
+\clearpage
+\newpage
+\subsection{COVID-19, Active Cases per million people, by Country}
+No of Active Cases = confirmed minus death minus recovered.
+
+<<COVID4, fig.cap=cap, out.width='10cm'>>=
+cap <- "COVID 19 - Day 1 is first day with >=1 case per mio - Active = confirmed - death - recoverd"
+
+#df1STATES <- ALLSTATE
+xLab <- "Day"
+yLab <- "Active Cases per million people"
+
+ggplot(df1STATES, aes(x = DAYDIS, y = DIS_MIO)) + 
+  geom_line(aes(color = STATE), size = 1) +
+  guides(color = guide_legend("State")) +
+  labs(x = xLab, y = yLab) +
+  theme_pubr()
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\subsection{COVID-19, Death Cases per million people, by Country}
+<<COVID5, fig.cap=cap, out.width='10cm'>>=
+cap <- "COVID 19 - Day 1 is first day with >=1 fatal case in country"
+
+#df1STATES <- ALLSTATE
+xLab <- "Day"
+yLab <- "Death cases per million people"
+
+ggplot(df1STATES, aes(x = DAY_DTH, y = DTH_MIO)) + 
+  geom_line(aes(color = STATE), size = 1) +
+  guides(color = guide_legend("State")) +
+  labs(x = xLab, y = yLab) +
+  theme_pubr()
+
+@
+
+\clearpage
+\newpage
+\subsection{COVID-19, Case Fatality Rate, perc., by Country - from: \Sexpr{myDATE}}
+<<COVID6, fig.cap=cap, out.width='10cm'>>=
+cap <- "COVID 19 - Case Fatality Rate - Total no of deaths / Total no of confrimed cases"
+
+#df1TODAY <- TODAY
+xLab <- "Country"
+yLab <- "Case Fatality Rate (perc.)"
+
+ggplot(data = df1TODAY, aes(x = STATE, y = CFR_PRC, col = STATE, fill = STATE)) +
+  geom_bar(stat = "identity") +
+  labs(y = yLab, x = "") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(legend.position = "none")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\subsection{Listing Case Fatality Rate (CFR) on \Sexpr{myDATE} - since start of COVID-19 outbreak}
+
+<<results='asis'>>=
+df3 <- TODAY %>%
+    select(STATE, POPUL, BEG_DT, TODAY, T_DY, DEATH_DT, DEATH, CONFIRM, CFR_PRC)
+  
+my_table <- xtable(df3, caption = "Listing Case Fatality Rate", 
+           align = "lrrrrrrrrr", caption.placement = "top", digits = 0, label = "ListFR")
+  
+digits(my_table)[10] <- 1 # Percent (column with 1 digit);
+  
+print(my_table, caption.placement = "top", size = "small", include.rownames = TRUE, 
+        table.placement = "htb", tabular.environment = "longtable", floating = FALSE)
+@
+
+\clearpage
+\newpage
+\subsection{Listing Confirmed Cases, Active Cases, and Death Cases per million people on \Sexpr{myDATE}}
+
+<<results='asis'>>=
+df4 <- TODAY %>%
+    select(STATE, POPUL, CONF_MIO, DIS_MIO, DTH_MIO)
+  
+my_table <- xtable(df4, caption = "Listing Confirmed Cases, Active Cases, 
+                   and Death Cases per million people", 
+           align = "lrrrrr", caption.placement = "top", digits = 0, label = "ListPerMio")
+  
+digits(my_table)[3] <- 0 # (popul));
+  
+print(my_table, caption.placement = "top", size = "small", include.rownames = TRUE, 
+        table.placement = "htb", tabular.environment = "longtable", floating = FALSE)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+\subsection{Derived Dataset - long Format: head(ALLSTATE)}
+
+<<echo=T>>=
+head(ALLSTATE)
+@    
+
+\subsection{Derived Dataset - long Format: str(ALLSTATE)}
+
+<<echo=T>>=
+str(ALLSTATE)
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% COVID 19 FIGURES - END
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

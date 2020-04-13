@@ -1,2 +1,70 @@
+
+<!-- README.Rmd markdown file generates README.md -->
+
 # rstudio-knitr-covid-19-report
-A PDF report generated with RStudio, R and knitr where data from COVID-19 was analyzed.
+
+A **PDF report** generated with **RStudio**, **R** and **knitr** where
+data from *COVID-19* was analyzed.
+
+See final PDF report: [Covid19.pdf](Covid19.pdf)
+
+### Statistical Methods
+
+Descriptive analysis: Comparison between countries, total confirmed
+cases, total confirmed cases per million people, no. of active cases per
+million people, death cases per million people, Case Fatality Rate.
+
+No. of active cases: = confirmed minus death minus recovered.
+
+Countries presented: AT, Germany, Iceland, IT, Spain, UK, US
+
+### Data Sources
+
+Population data used from:
+<https://covid.ourworldindata.org/data/ecdc/locations.csv>
+
+COVID-19 data from Johns Hopkins CSSE:
+<https://github.com/CSSEGISandData/COVID-19>
+
+#### Normalization of data from wide to long dataset
+
+Data from Johns Hopkins were normalized (from the original wide to a
+long dataset) in SAS (SAS program not shown). The
+<https://github.com/clindocu/sas-macros-r-functions/blob/master/gather.sas>
+macro was used to generate the derived SAS dataset(s).
+
+`ALLDAYS.xpt` - all countries/days (w/o population data)
+
+`ALLSTATE.xpt` - countries/days (with population data)
+
+#### Data Handling
+
+See section 1 in Covid19.pdf
+
+### Platform
+
+Windows 7, RStudio IDE, R, knitr, Tex Live 2017
+
+## Usage
+
+1.  Create the directory `C:\Temp\Covid19` and copy **all files** (.R,
+    .Rnw, .xpt, .pdf, .jpg) into this directory. In the case that a
+    different R working directory will be used, the *correct path* has
+    to be specified in the program **impsas\_xpt.R** with the statement:
+    *setwd(“path”)*
+
+2.  Create an empty sub-directory `C:\Temp\Covid19\Figure`
+
+3.  Open **Covid19.Rnw** and click on **Compile PDF** in RStudio
+
+Compile PDF -\> **Covid19.pdf** will be automatically *generated* and
+*opened*
+
+## Requirements and Instructions
+
+For requirements and instructions, see
+<https://github.com/clindocu/rstudio-knitr-report>
+
+## Warranty
+
+This program and the derived dataset(s) come WITHOUT ANY WARRANTY.

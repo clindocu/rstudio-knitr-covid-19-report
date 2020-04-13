@@ -1,0 +1,208 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%      STUDY TITLE: COVID19 Study 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%         STUDY NO: Covid19
+%%%        R PROGRAM: COVID19.Rnw
+%%%          VERSION: 1.0
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%      DESCRIPTION: Tables, Listing, Figures
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% DEVELOPMENT DATE: 13Apr2020
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%     DEVELOPED BY: alea iacta
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%          RELEASE: 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%             PATH: C:/Temp/Covid19/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{article}                   % LaTeX document class;
+\usepackage[english]{babel}               % english as default; 
+\usepackage[scaled=.92]{helvet}           % Helvetica, scaled 92%;
+\renewcommand{\familydefault}{\sfdefault} % default sans serif font;
+\usepackage{pdflscape}                    % enables PDF landscape;
+\usepackage{longtable}                    % enables "longtable" evironment;
+\usepackage{booktabs}                     % enables \toprule \bottomrule;
+\usepackage{geometry}                     % Flexible and complete interface to document dimensions;
+\geometry{nomarginpar,a4paper,verbose,tmargin=2.5cm,bmargin=1.5cm,lmargin=1.5cm,
+          rmargin=1.5cm,headheight =1.5cm,headsep=0.3cm}
+\usepackage{lmodern}                      % high quality fonts;
+\usepackage{lastpage}                     % allows page # of ##;
+\usepackage{fancyhdr}                     % customize headers and footers;
+\usepackage{float}                        % interface for floating objects;
+\usepackage[utf8]{inputenc}               % standard input utf-8;
+\usepackage[T1]{fontenc}                  % T1 font encoding;
+\usepackage{calc}                         % allows \setcounter{};
+\usepackage{epic}                         % Enhance LaTeX picture mode;
+\usepackage{listings}                                 % allows code attachments with \lstinputlisting{};
+\usepackage{fancyvrb}                                 % allows verbatim attachments with \VerbatimInput{};
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref} % hyperrefs in blue;
+\usepackage[section]{placeins}                        % control float placement;
+\usepackage{attachfile}                               % attach/embed files with \attachfile{};
+
+% Global settings for \lstinputlisting (with line breaks);
+\lstset{basicstyle=\sffamily,columns=fullflexible,keepspaces=true,breaklines=true}
+
+% no indentation whole document;
+\setlength{\parindent}{0pt} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% BEGIN DOCUMENT;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\pagestyle{fancy}
+\fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}  
+
+<<POPULATION, echo=FALSE, results="hide">>=
+# Enter Population (Analysis Set) here (for header and title page);
+VAR_myset <- "Countries: AT, Germany, Iceland, IT, Spain, UK, US"
+# Hard Code for title page;
+UpDate <- "dd-mmm-yyyy (not used)"
+# Example: VAR_myset will not printed because results="hide";
+VAR_myset
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% CREATE TITLE PAGE;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<<TITEL, child='00_TITLE_PAGE.Rnw'>>=
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% CREATE TABLE OF CONTENTS;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{page}{2}
+
+\tableofcontents
+
+\listoftables
+
+\listoffigures
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% ABBREVIATIONS;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%<<ABBREVIATIONS, child='00_ABBREVIATIONS.Rnw'>>=
+%@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% GLOBAL OPTIONS;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
+
+<<set-options>>=
+# Options
+options(replace.assign = TRUE, width = 80)
+
+# disabling scientific notation in R;
+options(scipen = 999)
+
+# Set digit option;
+options(digits = 2)
+
+pdf.options(family = "Helvetica-Narrow")
+
+# Define knitr chunk options;
+opts_chunk$set(fig.width  = 5, 
+               fig.height = 5, 
+               out.width  = '12cm', 
+               fig.pos    = 'H',
+               fig.align  = 'center',
+               fig.path   = './figure/Plot-',
+               fig.keep   = 'all',
+               cache      = FALSE,
+               echo       = TRUE,                   # FALSE: no output of R code;
+               message    = FALSE,                  # FALSE: no output of R messages;
+               warning    = FALSE,                  # FALSE: no output of warnings;
+               dev        = 'pdf')
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% READ SAS XPT FILES WITH USER-DEFINED FORMATS;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<<external-code>>=
+### Load R packages and Read SAS xpt files;
+source("impsas_xpt.R")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% Read R Chunks and user defined R Functions;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<<read-external, warning=TRUE>>=
+### Read chunks;
+read_chunk("00_chunks.R")
+
+### Read R functions;
+source("00_r_functions.R")
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% ANALYSIS PROGRAMS - BEGIN;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%% Include R program 01_DEMO_FIG.Rnw;
+
+<<COVID_FIG, child='01_COVID_FIG.Rnw'>>=
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% ANALYSIS PROGRAMS - END;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% APPENDIX INCLUDE ALL KNITR CODE;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\newpage
+
+\begin{appendix}
+
+
+\section{Technical Details}
+
+\tiny{
+% Enable to include system details;
+% \subsection{System Details}
+% <<echo=TRUE>>=
+%Sys.info()
+% @
+\subsection{R Version}
+<<echo=TRUE>>=
+R.Version()
+@
+\subsection{Active R packages}
+<<echo=TRUE>>=
+sessionInfo()
+@
+\subsection{PDF \LaTeX{}}
+<<echo=TRUE>>=
+Sys.which("pdflatex")
+@
+\subsection{System Time}
+<<echo=TRUE>>=
+Sys.time()
+@
+\subsection{Warranty}
+<<echo=TRUE>>=
+cat("This program and the derived dataset(s) come WITHOUT ANY WARRANTY")
+@
+}
+
+\end{appendix}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% END DOCUMENT;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+

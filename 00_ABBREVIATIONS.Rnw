@@ -1,0 +1,28 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ABBREVIATIONS - BEGIN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\newpage
+\section{List of Abbreviations and Definition of Terms}
+
+\begin{longtable}[ht]{p{2.5cm} p {11.8cm}} 
+  \toprule \\
+  \textbf{Abbreviation or specialist term}  & \textbf{Explanation} \\
+	\bottomrule \\
+CFR &  Case Fatality Rate \\
+COVID-19 & coronavirus disease 2019 \\
+knitr & \href{https://github.com/yihui/knitr}
+      {knitr: A General-Purpose Package for Dynamic Report Generation in R, Yihui Xie, 2017} \\
+R & \href{https://www.r-project.org/}{R Foundation for Statistical Computing, Vienna, Austria} \\
+RStudio &\href{https://github.com/rstudio/rstudio}
+              {RStudio: Integrated Development Environment for R. RStudio, Inc., Boston, MA} \\
+SAS & \href{https://www.sas.com}{SAS Institute Inc., Cary, NC, USA.} \\
+Tex Live & \href{http://www.tug.org/texlive}{Tex Live, Tex Users Group, Portland, OR, USA} \\
+\hline
+ 
+\end{longtable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ABBREVIATIONS - END
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
