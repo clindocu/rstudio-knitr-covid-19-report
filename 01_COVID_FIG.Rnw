@@ -30,8 +30,8 @@ print(my_table, caption.placement = "top", size = "small", include.rownames = TR
 
 All counties/states can be found in the derived (long dataset) dataset: \textit{ALLDAYS} (w/o population data)
 
-<<echo=F>>=
-## Derive Date Today - to be used later;
+<<echo>>=
+## Derive Date Today - will be used in headings with \Sexpr{myDATE};
 myDATE <- TODAY[1, 2]
 @
 
