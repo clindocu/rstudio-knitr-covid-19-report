@@ -66,22 +66,6 @@ ggplot(df1STATES, aes(x = DAY, y = CONFIRM)) +
   theme_pubr()
 @
 
-\clearpage
-\newpage
-\subsection{COVID-19, Total Confirmed Cases, Day 1 first day with >=100 cases, by Country}
-<<COVID2, fig.cap=cap, out.width='10cm'>>=
-cap <- "COVID 19 - Day 1 is first day with >=100 cases in country"
-
-#df1STATES <- ALLSTATE
-xLab <- "Day"
-yLab <- "Confirmed Cases"
-
-ggplot(df1STATES, aes(x = DAY100, y = CONFIRM)) + 
-  geom_line(aes(color = STATE), size = 1) +
-  guides(color = guide_legend("State")) +
-  labs(x = xLab, y = yLab) +
-  theme_pubr()
-@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage

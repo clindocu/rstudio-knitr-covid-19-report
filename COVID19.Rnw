@@ -164,6 +164,11 @@ source("00_r_functions.R")
 \clearpage
 \newpage
 
+\clearpage
+\newpage
+<<VERSION_HIST, child='99_HISTORY.Rnw'>>=
+@
+
 \begin{appendix}
 
 

@@ -6,12 +6,15 @@
 \newpage
 \section{Version History}
 
-\begin{longtable}[ht]{p{3cm} p{4cm} p{6.7cm} } 
+\begin{longtable}[ht]{p{1cm} p{2cm} p{12cm} } 
   \toprule \\
   \textbf{Version}  & \textbf{Date} & \textbf{Summary of Changes} \\
 	\bottomrule \\
 	\endhead
-01 & dd-mmm-yyyy & New Document \\
+01 & 13-Apr-2020 & New Document \\
+02 & 15-Apr-2020 & Minor modification: echo=F removed in line 33 \\
+03 & 25-Apr-2020 & Update with data from 24-Apr-2020 \\
+04 & 31-Oct-2020 & Update with data from 30-Oct-2020. Subsection "COVID-19, Total Confirmed Cases, Day 1 first day with >=100 cases, by Country", deleted. Version history added.  \\
 
 \hline
 \end{longtable}
